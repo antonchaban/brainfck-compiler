@@ -5,7 +5,6 @@ import org.example.a.chaban.Data;
 public class OutputCommand extends Command{
     public OutputCommand(char command) {
         super(command);
-//        super.getCommands().add(command);
     }
 
     @Override

@@ -1,13 +1,11 @@
 package org.example.a.chaban.commands;
 
-import lombok.Getter;
 import org.example.a.chaban.Data;
 
 public class IncCommand extends Command {
 
     public IncCommand(char command) {
         super(command);
-//        super.getCommands().add(command);
     }
 
     @Override
