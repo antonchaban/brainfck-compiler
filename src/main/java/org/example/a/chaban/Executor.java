@@ -9,9 +9,8 @@ public class Executor {
             return "";
         }
         var data = new Data();
-        var ptr = 0;
 
-        while (ptr < input.length()) {
+        for (int ptr = 0; ptr < input.length(); ) {
             var command = input.charAt(ptr);
             try {
                 var commandObject = CommandFactory.getCommand(command);

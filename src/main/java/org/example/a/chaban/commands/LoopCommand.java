@@ -27,30 +27,26 @@ public class LoopCommand extends Command {
 
     private int findClosingBracket(int position, String input) {
         int c = 0;
-        position++;
 
-        while (c > 0 || input.charAt(position) != CLOSE_BRACKET) {
+        for (position++; c > 0 || input.charAt(position) != CLOSE_BRACKET; position++) {
             if (input.charAt(position) == OPEN_BRACKET) {
                 c++;
             } else if (input.charAt(position) == CLOSE_BRACKET) {
                 c--;
             }
-            position++;
         }
         return position;
     }
 
     private int findOpeningBracket(int position, String input) {
         int c = 0;
-        position--;
 
-        while (c > 0 || input.charAt(position) != OPEN_BRACKET) {
+        for (position--; c > 0 || input.charAt(position) != OPEN_BRACKET; position--) {
             if (input.charAt(position) == CLOSE_BRACKET) {
                 c++;
             } else if (input.charAt(position) == OPEN_BRACKET) {
                 c--;
             }
-            position--;
         }
         return position;
     }
