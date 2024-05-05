@@ -3,6 +3,10 @@ package org.example.a.chaban;
 import lombok.Getter;
 import lombok.Setter;
 
+
+/**
+ * Data class to store data and pointer
+ */
 public class Data {
     private final int SIZE = 65_535;
 

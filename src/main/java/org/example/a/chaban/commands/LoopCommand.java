@@ -2,6 +2,9 @@ package org.example.a.chaban.commands;
 
 import org.example.a.chaban.Data;
 
+/**
+ * Command to execute loop commands
+ */
 public class LoopCommand extends Command {
 
     private final char OPEN_BRACKET = '[';
@@ -11,6 +14,14 @@ public class LoopCommand extends Command {
         super(command, data);
     }
 
+    /**
+     * Executes command that executes loop commands with
+     * the given position and input string
+     *
+     * @param position current position in the input string
+     * @param input    input string
+     * @return new position in the input string
+     */
     @Override
     public int execute(int position, String input) {
         int ptr = data.getPointer();

@@ -6,10 +6,21 @@ import org.example.a.chaban.Data;
 import org.example.a.chaban.commands.CommandHistory;
 import org.example.a.chaban.exceptions.IllegalCharException;
 
+
+/**
+ * Executor class to execute commands
+ * with given input string
+ */
 @Getter
 public class Executor {
     private CommandHistory commandHistory = new CommandHistory();
 
+    /**
+     * Executes given input string
+     *
+     * @param input input string
+     * @return output data
+     */
     public String execute(String input) {
         if (input == null || input.isEmpty()) {
             return "";
