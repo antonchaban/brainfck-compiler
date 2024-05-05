@@ -10,5 +10,9 @@ public class Main {
         System.out.println("##################");
         System.out.println(executor.
                 execute("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++asdasdasd"));
+        System.out.println("##################");
+        var history = executor.getHistory();
+        System.out.println("History:");
+        history.getHistory().forEach(command -> System.out.print(command.getCommands()));
     }
 }
