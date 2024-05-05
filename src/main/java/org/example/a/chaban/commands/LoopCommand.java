@@ -7,12 +7,12 @@ public class LoopCommand extends Command {
     private final char OPEN_BRACKET = '[';
     private final char CLOSE_BRACKET = ']';
 
-    public LoopCommand(char command) {
-        super(command);
+    public LoopCommand(char command, Data data) {
+        super(command, data);
     }
 
     @Override
-    public int execute(Data data, int position, String input) {
+    public int execute(int position, String input) {
         int ptr = data.getPointer();
         char[] memory = data.getData();
 
