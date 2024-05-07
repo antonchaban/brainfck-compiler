@@ -3,29 +3,31 @@ package org.example.a.chaban;
 import lombok.Getter;
 import lombok.Setter;
 
-
-/**
- * Data class to store data and pointer
- */
 public class Data {
-    private final int SIZE = 65_535;
+    private final int SIZE = 30000;
 
     @Getter @Setter
     private char[] data;
 
     @Getter @Setter
     private int pointer;
-
-    @Getter
-    private String outputData;
+    private StringBuilder outputData;
 
     public Data() {
-        this.data = new char[SIZE];
-        this.pointer = 0;
-        this.outputData = "";
+        data = new char[SIZE];
+        pointer = 0;
+        outputData = new StringBuilder();
     }
 
-    public void addOutputData(char data) {
-        outputData += data;
+    public char getCurrentCellValue() {
+        return data[pointer];
+    }
+
+    public void addToOutput(char c) {
+        outputData.append(c);
+    }
+
+    public String getOutputData() {
+        return outputData.toString();
     }
 }

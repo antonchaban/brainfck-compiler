@@ -1,6 +1,6 @@
-package org.example.a.chaban.v2;
+package org.example.a.chaban;
 
-import org.example.a.chaban.v2.commands.*;
+import org.example.a.chaban.commands.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +11,23 @@ public class BrainfuckCompiler {
         List<LoopCommand> loops = new ArrayList<>();
 
         int currentPosition = 0;
-        while (currentPosition < input.length()) {
-            char currentChar = input.charAt(currentPosition);
+        try {
+            while (currentPosition < input.length()) {
+                char currentChar = input.charAt(currentPosition);
 
-            switch (currentChar) {
-                case '>' -> appendCommandOrInnerLoop(loops, commands, new RightCommand());
-                case '<' -> appendCommandOrInnerLoop(loops, commands, new LeftCommand());
-                case '+' -> appendCommandOrInnerLoop(loops, commands, new IncCommand());
-                case '-' -> appendCommandOrInnerLoop(loops, commands, new DecCommand());
-                case '.' -> appendCommandOrInnerLoop(loops, commands, new OutputCommand());
-                case '[' -> openLoop(loops, commands);
-                case ']' -> closeLoop(loops);
+                switch (currentChar) {
+                    case '>' -> appendCommandOrInnerLoop(loops, commands, new RightCommand());
+                    case '<' -> appendCommandOrInnerLoop(loops, commands, new LeftCommand());
+                    case '+' -> appendCommandOrInnerLoop(loops, commands, new IncCommand());
+                    case '-' -> appendCommandOrInnerLoop(loops, commands, new DecCommand());
+                    case '.' -> appendCommandOrInnerLoop(loops, commands, new OutputCommand());
+                    case '[' -> openLoop(loops, commands);
+                    case ']' -> closeLoop(loops);
+                }
+                currentPosition++;
             }
-            currentPosition++;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
         return commands;
     }

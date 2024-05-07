@@ -1,6 +1,6 @@
-package org.example.a.chaban.v2;
+package org.example.a.chaban;
 
-import org.example.a.chaban.v2.commands.Command;
+import org.example.a.chaban.commands.Command;
 
 import java.util.List;
 
