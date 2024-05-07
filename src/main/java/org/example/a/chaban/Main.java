@@ -9,7 +9,7 @@ public class Main {
         Executor executor = new Executor();
         System.out.println("##################");
         System.out.println(executor.
-                execute("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++asdasdasd"));
+                execute("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++"));
         System.out.println("##################");
         var history = executor.getCommandHistory();
         System.out.println("History:");
@@ -17,6 +17,7 @@ public class Main {
         System.out.println();
         var commandExecutor = new CommandExecutor();
         System.out.println("##################");
+        System.out.println(history.getHistory().size());
         System.out.println(commandExecutor.executeCommands(history.getHistory()));
     }
 }
