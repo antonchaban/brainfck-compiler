@@ -1,10 +1,12 @@
 package org.example.a.chaban.v2.commands;
 
+import lombok.Getter;
 import org.example.a.chaban.v2.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class LoopCommand implements Command{
     private final List<Command> innerLoopCommands = new ArrayList<>();
 

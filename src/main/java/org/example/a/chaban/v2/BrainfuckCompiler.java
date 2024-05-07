@@ -6,57 +6,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrainfuckCompiler {
-    public List<Command> compile(String input){
+    public List<Command> compile(String input) {
         List<Command> commands = new ArrayList<>();
+        List<LoopCommand> loops = new ArrayList<>();
+
         int currentPosition = 0;
         while (currentPosition < input.length()) {
             char currentChar = input.charAt(currentPosition);
-            Command command = createCommand(currentChar, input, currentPosition);
-            if (command != null) {
-                commands.add(command);
+
+            switch (currentChar) {
+                case '>' -> appendCommandOrInnerLoop(loops, commands, new RightCommand());
+                case '<' -> appendCommandOrInnerLoop(loops, commands, new LeftCommand());
+                case '+' -> appendCommandOrInnerLoop(loops, commands, new IncCommand());
+                case '-' -> appendCommandOrInnerLoop(loops, commands, new DecCommand());
+                case '.' -> appendCommandOrInnerLoop(loops, commands, new OutputCommand());
+                case '[' -> openLoop(loops, commands);
+                case ']' -> closeLoop(loops);
             }
             currentPosition++;
         }
-        return commands; 
+        return commands;
     }
 
-    private Command createCommand(char c, String input, int position) {
-        switch (c) {
-            case '>':
-                return new RightCommand();
-            case '<':
-                return new LeftCommand();
-            case '+':
-                return new IncCommand();
-            case '-':
-                return new DecCommand();
-            case '.':
-                return new OutputCommand();
-            case '[':
-                int closingBracketPosition = findClosingBracket(input, position);
-                String innerCommands = input.substring(position + 1, closingBracketPosition);
-                List<Command> innerLoopCommands = compile(innerCommands);
-                return new LoopCommand(innerLoopCommands);
-            default:
-                return null;
+    private void appendCommandOrInnerLoop(List<LoopCommand> loops, List<Command> commands, Command command) {
+        if (loops.isEmpty()) {
+            commands.add(command);
+        } else {
+            loops.getLast().getInnerLoopCommands().add(command);
         }
     }
 
-    private int findClosingBracket(String input, int position) {
-        int nestingLevel = -1;
-        for (int i = position; i < input.length(); i++) {
-            char currentChar = input.charAt(i);
-            if (currentChar == '[') {
-                nestingLevel++;
-            } else if (currentChar == ']') {
-                if (nestingLevel == 0) {
-                    return i;
-                }
-                nestingLevel--;
-            }
+    private void openLoop(List<LoopCommand> loops, List<Command> commands) {
+        LoopCommand newLoop = new LoopCommand(new ArrayList<>());
+        if (loops.isEmpty()) {
+            commands.add(newLoop);
+        } else {
+            loops.getLast().getInnerLoopCommands().add(newLoop);
         }
-        return -1;
+        loops.add(newLoop);
     }
 
-
+    private void closeLoop(List<LoopCommand> loops) {
+        loops.removeLast();
+    }
 }
