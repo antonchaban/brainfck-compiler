@@ -2,55 +2,36 @@ package org.example.a.chaban;
 
 import org.example.a.chaban.commands.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BrainfuckCompiler {
-    public List<Command> compile(String input) {
-        List<Command> commands = new ArrayList<>();
-        List<LoopCommand> loops = new ArrayList<>();
+    private final Map<Character, BrainfuckInstructionProcessor> processors = new HashMap<>();
 
-        int currentPosition = 0;
-        try {
-            while (currentPosition < input.length()) {
-                char currentChar = input.charAt(currentPosition);
+    public BrainfuckCompiler() {
+        processors.put('>', (compilationStack) -> compilationStack.peek().add(new RightCommand()));
+        processors.put('<', (compilationStack) -> compilationStack.peek().add(new LeftCommand()));
+        processors.put('+', (compilationStack) -> compilationStack.peek().add(new IncCommand()));
+        processors.put('-', (compilationStack) -> compilationStack.peek().add(new DecCommand()));
+        processors.put('.', (compilationStack) -> compilationStack.peek().add(new OutputCommand()));
+        processors.put('[', (compilationStack) -> compilationStack.push(new ArrayList<>()));
+        processors.put(']', (compilationStack) -> {
+            List<Command> innerLoopCommands = compilationStack.pop();
+            LoopCommand loopCommand = new LoopCommand(innerLoopCommands);
+            compilationStack.peek().add(loopCommand);
+        });
 
-                switch (currentChar) {
-                    case '>' -> appendCommandOrInnerLoop(loops, commands, new RightCommand());
-                    case '<' -> appendCommandOrInnerLoop(loops, commands, new LeftCommand());
-                    case '+' -> appendCommandOrInnerLoop(loops, commands, new IncCommand());
-                    case '-' -> appendCommandOrInnerLoop(loops, commands, new DecCommand());
-                    case '.' -> appendCommandOrInnerLoop(loops, commands, new OutputCommand());
-                    case '[' -> openLoop(loops, commands);
-                    case ']' -> closeLoop(loops);
-                }
-                currentPosition++;
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return commands;
     }
 
-    private void appendCommandOrInnerLoop(List<LoopCommand> loops, List<Command> commands, Command command) {
-        if (loops.isEmpty()) {
-            commands.add(command);
-        } else {
-            loops.getLast().getInnerLoopCommands().add(command);
-        }
-    }
+    public List<Command> compile(String brainfuckProgram) {
+        Deque<List<Command>> compilationStack = new ArrayDeque<>();
+        compilationStack.push(new ArrayList<>());
 
-    private void openLoop(List<LoopCommand> loops, List<Command> commands) {
-        LoopCommand newLoop = new LoopCommand(new ArrayList<>());
-        if (loops.isEmpty()) {
-            commands.add(newLoop);
-        } else {
-            loops.getLast().getInnerLoopCommands().add(newLoop);
-        }
-        loops.add(newLoop);
-    }
+        for (char currentInstruction : brainfuckProgram.toCharArray()) {
+            processors.get(currentInstruction)
+                    .process(compilationStack);
 
-    private void closeLoop(List<LoopCommand> loops) {
-        loops.removeLast();
+        }
+        assert compilationStack.size() == 1;
+        return compilationStack.pop();
     }
 }

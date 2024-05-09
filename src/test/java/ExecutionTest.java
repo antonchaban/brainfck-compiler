@@ -7,39 +7,17 @@ public class ExecutionTest {
     @Test
     void testHelloWorld() {
         String input = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++";
-        BrainfuckExecutor executor = new BrainfuckExecutor(input);
+        BrainfuckExecutor executor = new BrainfuckExecutor();
         assertEquals("Hello World!",
-                executor.execute());
+                executor.execute(input));
 
     }
 
     @Test
     void testEmpty() {
-        BrainfuckExecutor executor = new BrainfuckExecutor("");
+        BrainfuckExecutor executor = new BrainfuckExecutor();
         assertEquals("",
-                executor.execute());
-    }
-
-    @Test
-    void testIllegalChar() {
-        BrainfuckExecutor executor =
-                new BrainfuckExecutor("++++++++[>++++[>++>+++>+++>asda+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++asdasdasd");
-        assertEquals("Hello World!",
-                executor.execute());
-    }
-
-    @Test
-    void testNull() {
-        BrainfuckExecutor executor = new BrainfuckExecutor(null);
-        assertEquals("",
-                executor.execute());
-    }
-
-    @Test
-    void testOnlyChars() {
-        BrainfuckExecutor executor = new BrainfuckExecutor("asdasdasd");
-        assertEquals("",
-                executor.execute());
+                executor.execute(""));
     }
 
 }
